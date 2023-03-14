@@ -1,0 +1,4 @@
+version: "1.0"
+services:
+  zadanie1:
+    image: bestemic/zadanie1:latest
