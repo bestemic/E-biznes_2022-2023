@@ -12,8 +12,8 @@ import scala.collection.mutable
 class ProductController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
 
   private val productList = new mutable.ListBuffer[Product]()
-  productList += Product(1, "prod 1", 12)
-  productList += Product(2, "prod 2", 1)
+  productList += Product(1, "prod 1", 1, 12)
+  productList += Product(2, "prod 2", 2, 1)
 
   implicit val productFormat = Json.format[Product]
   implicit val productDtoFormat = Json.format[ProductDTO]
@@ -47,7 +47,7 @@ class ProductController @Inject()(val controllerComponents: ControllerComponents
     productDtoList match {
       case Some(productDto) =>
         val nextId = productList.map(_.id).max + 1
-        val newProduct = Product(nextId, productDto.name, productDto.price)
+        val newProduct = Product(nextId, productDto.name, productDto.categoryId, productDto.price)
         productList += newProduct
         Created(Json.toJson(newProduct))
       case None =>
@@ -69,7 +69,7 @@ class ProductController @Inject()(val controllerComponents: ControllerComponents
         productDtoList match {
           case Some(productDto) =>
             productList -= product
-            val newProduct = Product(id, productDto.name, productDto.price)
+            val newProduct = Product(id, productDto.name, productDto.categoryId, productDto.price)
             productList += newProduct
             Ok(Json.toJson(newProduct))
           case None =>

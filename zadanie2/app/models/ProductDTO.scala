@@ -1,3 +1,3 @@
 package models
 
-case class ProductDTO(name: String, price: Int)
+case class ProductDTO(name: String, categoryId: Long, price: Int)
