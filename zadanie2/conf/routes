@@ -1,0 +1,5 @@
+GET           /product            controllers.ProductController.getAll()
+GET           /product/:id        controllers.ProductController.get(id: Long)
+POST          /product            controllers.ProductController.add()
+PUT           /product/:id        controllers.ProductController.update(id: Long)
+DELETE        /product/:id        controllers.ProductController.delete(id: Long)
