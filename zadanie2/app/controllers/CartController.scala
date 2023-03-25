@@ -46,7 +46,10 @@ class CartController @Inject()(val controllerComponents: ControllerComponents) e
 
     cartDtoList match {
       case Some(cartDto) =>
-        val nextId = cartList.map(_.id).max + 1
+        var nextId: Long = 1
+        if (cartList.nonEmpty) {
+          nextId = cartList.map(_.id).max + 1
+        }
         val newCart = Cart(nextId, cartDto.productId, cartDto.amount)
         cartList += newCart
         Created(Json.toJson(newCart))

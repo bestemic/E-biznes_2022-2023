@@ -46,7 +46,10 @@ class ProductController @Inject()(val controllerComponents: ControllerComponents
 
     productDtoList match {
       case Some(productDto) =>
-        val nextId = productList.map(_.id).max + 1
+        var nextId: Long = 1
+        if (productList.nonEmpty) {
+          nextId = productList.map(_.id).max + 1
+        }
         val newProduct = Product(nextId, productDto.name, productDto.categoryId, productDto.price)
         productList += newProduct
         Created(Json.toJson(newProduct))

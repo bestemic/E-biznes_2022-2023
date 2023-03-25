@@ -1,0 +1,13 @@
+version: "1.0"
+
+services:
+  zadanie2:
+    image: bestemic/zadanie2:latest
+    ports:
+      - 9000:9000
+
+  ngrok:
+    image: ngrok/ngrok
+    ports:
+      - "4040:4040"
+    command: [ "http", "zadanie2:9000" ]

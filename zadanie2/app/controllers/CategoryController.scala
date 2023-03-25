@@ -46,7 +46,10 @@ class CategoryController @Inject()(val controllerComponents: ControllerComponent
 
     categoryDtoList match {
       case Some(categoryDto) =>
-        val nextId = categoryList.map(_.id).max + 1
+        var nextId: Long = 1
+        if(categoryList.nonEmpty){
+          nextId = categoryList.map(_.id).max + 1
+        }
         val newCategory = Category(nextId, categoryDto.name, categoryDto.description)
         categoryList += newCategory
         Created(Json.toJson(newCategory))
