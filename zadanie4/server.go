@@ -19,6 +19,7 @@ func main() {
 	})
 
 	routes.ProductRoute(e)
+	routes.CartRoute(e)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

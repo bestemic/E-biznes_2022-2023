@@ -11,10 +11,9 @@ import (
 
 type ProductController struct{}
 
-var validate = validator.New()
-
 func (w *ProductController) CreateProduct(c echo.Context) error {
 	db := c.Get("db").(*gorm.DB)
+	var validate = validator.New()
 
 	var product models.Product
 
@@ -48,6 +47,7 @@ func (w *ProductController) GetProduct(c echo.Context) error {
 
 func (w *ProductController) UpdateProduct(c echo.Context) error {
 	db := c.Get("db").(*gorm.DB)
+	var validate = validator.New()
 
 	id, _ := strconv.Atoi(c.Param("id"))
 	var currentProduct models.Product
@@ -67,9 +67,11 @@ func (w *ProductController) UpdateProduct(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "Error")
 	}
 
-	db.Save(&product)
+	currentProduct.Price = product.Price
+	currentProduct.Name = product.Name
+	db.Save(&currentProduct)
 
-	return c.JSON(http.StatusOK, &product)
+	return c.JSON(http.StatusOK, &currentProduct)
 }
 
 func (w *ProductController) DeleteProduct(c echo.Context) error {
