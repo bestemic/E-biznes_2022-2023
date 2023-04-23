@@ -6,11 +6,11 @@ import (
 )
 
 func CartRoute(e *echo.Echo) {
-	productController := controllers.CartController{}
+	cartController := controllers.CartController{}
 
-	e.GET("/carts", productController.GetAllCarts)
-	e.POST("/carts", productController.CreateCart)
-	e.GET("/carts/:id", productController.GetCart)
-	e.PUT("/carts/:id", productController.UpdateCart)
-	e.DELETE("/carts/:id", productController.DeleteCart)
+	e.GET("/carts", cartController.GetAllCarts)
+	e.POST("/carts", cartController.CreateCart)
+	e.GET("/carts/:id", cartController.GetCart)
+	e.PUT("/carts/:id", cartController.UpdateCart)
+	e.DELETE("/carts/:id", cartController.DeleteCart)
 }

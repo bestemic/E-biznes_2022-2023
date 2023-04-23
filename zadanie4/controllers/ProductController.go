@@ -22,7 +22,14 @@ func (w *ProductController) CreateProduct(c echo.Context) error {
 	}
 
 	if validationErr := validate.Struct(&product); validationErr != nil {
-		return c.JSON(http.StatusBadRequest, "Error")
+		return c.JSON(http.StatusBadRequest, validationErr.Error())
+	}
+
+	var category models.Category
+	db.First(&category, product.CategoryID)
+
+	if category.ID == 0 {
+		return c.JSON(http.StatusBadRequest, "Category not found")
 	}
 
 	db.Create(&product)
@@ -65,6 +72,13 @@ func (w *ProductController) UpdateProduct(c echo.Context) error {
 
 	if validationErr := validate.Struct(&product); validationErr != nil {
 		return c.JSON(http.StatusBadRequest, "Error")
+	}
+
+	var category models.Category
+	db.First(&category, product.CategoryID)
+
+	if category.ID == 0 {
+		return c.JSON(http.StatusBadRequest, "Category not found")
 	}
 
 	currentProduct.Price = product.Price
