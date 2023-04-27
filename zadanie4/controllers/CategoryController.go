@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 	"zadanie4/models"
+	"zadanie4/scopes"
 )
 
 type CategoryController struct{}
@@ -39,7 +40,7 @@ func (w *CategoryController) GetCategory(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	var category models.Category
 
-	db.Preload("Products").First(&category, id)
+	db.Scopes(scopes.WithProduct).First(&category, id)
 
 	if category.ID == 0 {
 		return c.JSON(http.StatusNotFound, "Category with id "+c.Param("id")+" not found")
@@ -104,7 +105,7 @@ func (w *CategoryController) GetAllCategories(c echo.Context) error {
 	db := c.Get("db").(*gorm.DB)
 
 	var categories []models.Category
-	db.Preload("Products").Find(&categories)
+	db.Scopes(scopes.WithProduct).Find(&categories)
 
 	return c.JSON(http.StatusOK, &categories)
 }
