@@ -1,0 +1,7 @@
+{
+  "name": "zadanie6",
+  "version": "1.0.0",
+  "dependencies": {
+    "cypress": "^12.12.0"
+  }
+}
