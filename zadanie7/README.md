@@ -9,3 +9,7 @@
 <br>
 
 [Wyniki skanu](https://sonarcloud.io/summary/overall?id=bestemic_E-biznes_2022-2023)
+
+## Linter
+
+Plik `pre-commit` musi znajdować się w folderze `.git/hooks` a plik `.scalafmt.conf` z konfiguracją musi się znajdować w folderze głównym repozytorium.
