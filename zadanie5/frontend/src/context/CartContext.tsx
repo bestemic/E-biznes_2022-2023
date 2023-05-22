@@ -1,9 +1,9 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {createContext, useCallback, useMemo, useState} from 'react';
 import {Product} from '../interfaces/ProductInterface';
 import {CartItem} from '../interfaces/CartItemInterface';
 import {CartContextState} from '../interfaces/CartContextStateInterface';
 
-export const CartContext = React.createContext<CartContextState | undefined>(undefined);
+export const CartContext = createContext<CartContextState | undefined>(undefined);
 
 type Props = {
     children: React.ReactNode;

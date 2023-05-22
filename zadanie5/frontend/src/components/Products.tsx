@@ -11,6 +11,9 @@ export const Products = () => {
     return (
         <div>
             <div className="products">
+                {products.length == 0 &&
+                    <h2>Brak dostępnych produktów</h2>
+                }
                 <table>
                     <thead>
                     <tr>

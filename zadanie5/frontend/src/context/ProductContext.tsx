@@ -1,9 +1,9 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {createContext, useEffect, useMemo, useState} from 'react';
 import {Product} from "../interfaces/ProductInterface";
 import getProducts from "../api/ProductsApi";
 import {ShopContextState} from "../interfaces/ShopContextStateInterface";
 
-export const ProductContext = React.createContext<ShopContextState | undefined>(undefined);
+export const ProductContext = createContext<ShopContextState | undefined>(undefined);
 
 type Props = {
     children: React.ReactNode;
