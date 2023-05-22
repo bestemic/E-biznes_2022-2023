@@ -1,6 +1,6 @@
 ## Testy jednostkowe
 
-[Testy jednostkowe](https://github.com/bestemic/E-biznes_2022-2023/tree/main/zadanie5/frontend/src/test)
+[Testy jednostkowe](https://github.com/bestemic/E-biznes_2022-2023/tree/main/zadanie5/frontend/src/tests)
 
 ## Testy endpointów
 
