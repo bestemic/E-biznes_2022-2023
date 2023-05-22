@@ -9,7 +9,7 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class PaymentController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
 
-  implicit val productDtoFormat = Json.format[PaymentDTO]
+  implicit val PaymentDTOFormat = Json.format[PaymentDTO]
 
   def pay: Action[AnyContent] = Action { implicit request =>
     val content = request.body
