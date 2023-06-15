@@ -67,6 +67,4 @@ jobs:
         
       - name: cypress run
         working-directory: zadanie6
-        run: |
-          npm run build
-          npm start
+        run: npx cypress run
