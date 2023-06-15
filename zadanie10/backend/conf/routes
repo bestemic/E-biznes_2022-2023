@@ -1,0 +1,5 @@
+GET         /products        controllers.ProductController.getAll
+
+POST        /payment         controllers.PaymentController.pay
+
+POST        /cart            controllers.CartController.send
