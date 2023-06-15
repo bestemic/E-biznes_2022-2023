@@ -88,4 +88,22 @@ jobs:
         with:
           app-name: uj-app-frontend
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: 'bestemic/uj-app-frontend:latest'
+          images: '$DOCKER_USER/uj-app-frontend:latest'
+
+  deploy_backend:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    # needs: send_email
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: uj-app-frontend
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: '$DOCKER_USER/uj-app-backend:latest'
