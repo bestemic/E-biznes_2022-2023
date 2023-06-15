@@ -34,6 +34,7 @@ jobs:
         docker push $DOCKER_USER/uj-app-backend
 
   send_email:
+    needs: build_and_push
     runs-on: ubuntu-latest
     steps:
       - name: Send mail
