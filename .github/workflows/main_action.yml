@@ -8,49 +8,49 @@ env:
     DOCKER_USER: ${{secrets.DOCKER_USER}}
 
 jobs:
-  build_and_push:
-    runs-on: ubuntu-latest
+  # build_and_push:
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+  #   steps:
+  #   - name: Checkout repository
+  #     uses: actions/checkout@v2
 
-    - name: Login to Docker
-      env:
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+  #   - name: Login to Docker
+  #     env:
+  #       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+  #     run: |
+  #       docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
 
-    - name: Build and push frontend
-      working-directory: zadanie10/frontend
-      run: |
-        docker build -t $DOCKER_USER/uj-app-frontend .
-        docker push $DOCKER_USER/uj-app-frontend
+  #   - name: Build and push frontend
+  #     working-directory: zadanie10/frontend
+  #     run: |
+  #       docker build -t $DOCKER_USER/uj-app-frontend .
+  #       docker push $DOCKER_USER/uj-app-frontend
 
-    - name: Build and push backend
-      working-directory: zadanie10/backend
-      run: |
-        docker build -t $DOCKER_USER/uj-app-backend .
-        docker push $DOCKER_USER/uj-app-backend
+  #   - name: Build and push backend
+  #     working-directory: zadanie10/backend
+  #     run: |
+  #       docker build -t $DOCKER_USER/uj-app-backend .
+  #       docker push $DOCKER_USER/uj-app-backend
 
-  send_email:
-    needs: build_and_push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send mail
-        uses: dawidd6/action-send-mail@v3.7.2
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{secrets.EMAIL_USERNAME}}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: Build finished
-          body: Build job of ${{github.repository}} completed successfully!
-          to: ${{secrets.EMAIL_USERNAME}}
-          from: ${{secrets.EMAIL_USERNAME}}
+  # send_email:
+  #   needs: build_and_push
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Send mail
+  #       uses: dawidd6/action-send-mail@v3.7.2
+  #       with:
+  #         server_address: smtp.gmail.com
+  #         server_port: 465
+  #         username: ${{secrets.EMAIL_USERNAME}}
+  #         password: ${{ secrets.EMAIL_PASSWORD }}
+  #         subject: Build finished
+  #         body: Build job of ${{github.repository}} completed successfully!
+  #         to: ${{secrets.EMAIL_USERNAME}}
+  #         from: ${{secrets.EMAIL_USERNAME}}
 
   run_tests:
-    needs: build_and_push
+    # needs: build_and_push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -62,6 +62,7 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
+        working-directory: zadanie6
         run: npm ci
         
       - name: cypress run
