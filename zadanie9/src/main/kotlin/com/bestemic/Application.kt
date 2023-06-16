@@ -12,9 +12,13 @@ import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
+import io.ktor.serialization.jackson.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -90,27 +94,58 @@ fun Application.messageSenderModule(kord: Kord, channelId: String) {
     }
 }
 
+data class Text(val message: String)
+
 @OptIn(BetaOpenAI::class)
 fun Application.gptService(openai: OpenAI) {
+    install(CORS) {
+        anyHost()
+    }
+
+    install(ContentNegotiation) {
+        jackson {}
+    }
+
+    val openings = listOf(
+        "Witaj! W czym mogę pomóc?",
+        "Cześć! Jestem do twojej dyspozycji.",
+        "Hej! Z chęcią odpowiem na twoje pytania.",
+        "Dzień dobry! W czym mogę Cię wspomóc dzisiaj?",
+        "Witam serdecznie! Co mogę dla Ciebie zrobić?"
+    )
+
+    val closings = listOf(
+        "Dziękuję za rozmowę.",
+        "Mam nadzieję, że odpowiedziałem na Twoje pytanie.",
+        "Do kolejnego spotkania.",
+        "Życzę miłego dnia!",
+        "Do zobaczenia następnym razem!"
+    )
+
     routing {
-        get("/gpt") {
+        post("/gpt") {
+            val message = call.receive<String>()
             val completion = openai.chatCompletion(
                 ChatCompletionRequest(
                     model = ModelId("gpt-3.5-turbo"),
                     messages = listOf(
                         ChatMessage(
-                            role = ChatRole.System,
-                            content = "Zadaj mi pytanie."
-                        ),
-                        ChatMessage(
                             role = ChatRole.User,
-                            content = "Opowiedz mi żart"
+                            content = message
                         )
                     )
                 )
             )
 
             completion.choices.first().message?.let { it1 -> call.respond(it1.content) }
+        }
+
+        get("/opening") {
+            call.respond(Text(openings.random()))
+        }
+
+        get("/closing") {
+            call.respond(Text(closings.random()))
         }
     }
 }
