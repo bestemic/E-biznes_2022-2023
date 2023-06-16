@@ -1,4 +1,5 @@
 import {useState} from "react";
+import Cookies from 'js-cookie';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -24,7 +25,7 @@ const Login = () => {
             .then((result) => {
                 if (result.status === 200) {
                     setMessage('')
-                    sessionStorage.setItem('token', result.body.token);
+                    Cookies.set('token', result.body.token)
                     window.location.reload();
                 } else {
                     setMessage(result.body.message)
@@ -55,6 +56,17 @@ const Login = () => {
             <button onClick={handleLogin}>Zaloguj</button>
 
             {message !== '' && <p>{message}</p>}
+
+            <br/>
+            <hr/>
+            <br/>
+            <form action="http://localhost:3000/users/login/google" method="GET">
+                <button type="submit">Logowanie przez Google</button>
+            </form>
+            <br/>
+            <form action="http://localhost:3000/users/login/github" method="GET">
+                <button type="submit">Logowanie przez GitHub</button>
+            </form>
         </div>
     );
 }
